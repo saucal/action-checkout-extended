@@ -37,6 +37,7 @@ runs:
       continue-on-error: true
       with:
         submodules: "recursive"
+        token: ${{ inputs.gh_token }}
         path: ${{ inputs.path }}
 
     - name: Set SHA Output

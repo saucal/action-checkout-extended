@@ -12,6 +12,10 @@ inputs:
     description: "GH Token to use for checkouts"
     required: false
     default: "${{ github.token }}"
+  repo:
+    description: "Repository to checkout"
+    required: false
+    default: "${{ github.repository }}"
 outputs:
   sha:
     description: "Real SHA of the commit checked out"
@@ -25,6 +29,7 @@ runs:
       uses: actions/checkout@v2
       continue-on-error: true
       with:
+        repository: ${{ inputs.repo }}
         submodules: "recursive"
         ref: ${{ inputs.use }}
         token: ${{ inputs.gh_token }}
@@ -36,6 +41,7 @@ runs:
       uses: actions/checkout@v2
       continue-on-error: true
       with:
+        repository: ${{ inputs.repo }}
         submodules: "recursive"
         token: ${{ inputs.gh_token }}
         path: ${{ inputs.path }}

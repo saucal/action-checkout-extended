@@ -111,6 +111,7 @@ runs:
           echo "Creating a ${{ inputs.use }} branch..."
           git checkout --quiet --orphan "${{ inputs.use }}"
           git commit --allow-empty -m "Initial empty commit"
+          git config --global push.autoSetupRemote true
         fi
 
     - name: Set SHA Output

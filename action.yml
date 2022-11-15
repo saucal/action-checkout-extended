@@ -16,6 +16,22 @@ inputs:
     description: "Repository to checkout"
     required: false
     default: "${{ github.repository }}"
+  use-cn:
+    description: "Commiter Name"
+    required: false
+    default: "github-actions[bot]"
+  use-ce:
+    description: "Commiter Email"
+    required: false
+    default: "41898282+github-actions[bot]@users.noreply.github.com"
+  use-an:
+    description: "Author Name"
+    required: false
+    default: ""
+  use-ae:
+    description: "Author Email"
+    required: false
+    default: ""
 outputs:
   sha:
     description: "Real SHA of the commit checked out"
@@ -57,6 +73,34 @@ runs:
         submodules: "recursive"
         token: ${{ inputs.token }}
         path: ${{ inputs.path }}
+
+    - name: Maybe setup Commiter Name
+      if: ${{ inputs.use-cn != '' }}
+      shell: bash
+      run: |
+        cd "${{ inputs.path }}"
+        git config user.name "${{ inputs.use-cn }}"
+        git config --global user.name "${{ inputs.use-cn }}"
+
+    - name: Maybe setup Commiter Email
+      if: ${{ inputs.use-ce != '' }}
+      shell: bash
+      run: |
+        cd "${{ inputs.path }}"
+        git config user.email "${{ inputs.use-ce }}"
+        git config --global user.email "${{ inputs.use-ce }}"
+
+    - name: Maybe setup Author Name
+      if: ${{ inputs.use-an != '' }}
+      shell: bash
+      run: |
+        cd "${{ inputs.path }}" && git config author.name "${{ inputs.use-an }}"
+
+    - name: Maybe setup Author Email
+      if: ${{ inputs.use-ae != '' }}
+      shell: bash
+      run: |
+        cd "${{ inputs.path }}" && git config author.email "${{ inputs.use-ae }}"
 
     - name: Set SHA Output
       env: 

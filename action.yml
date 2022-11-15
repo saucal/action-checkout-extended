@@ -102,6 +102,17 @@ runs:
       run: |
         cd "${{ inputs.path }}" && git config author.email "${{ inputs.use-ae }}"
 
+    - name: Maybe create branch
+      if: ${{ steps.checkout-specific.outcome == 'failure' }}
+      shell: bash
+      run: |
+        cd "${{ inputs.path }}"
+        if [[ 0 = $(git ls-remote --heads origin "${{ inputs.use }}" | wc -l) ]]; then
+          echo "Creating a ${{ inputs.use }} branch..."
+          git checkout --quiet --orphan "${{ inputs.use }}"
+          git commit --allow-empty -m "Initial empty commit"
+        fi
+
     - name: Set SHA Output
       env: 
         IS_SPECIFIC: ${{ steps.checkout-specific.outcome != 'skipped' }}

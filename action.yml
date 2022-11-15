@@ -20,6 +20,18 @@ outputs:
   sha:
     description: "Real SHA of the commit checked out"
     value: ${{ steps.current-sha.outputs.sha }}
+  an:
+    description: "Author name of checked out commit"
+    value: ${{ steps.current-sha.outputs.an }}
+  ae:
+    description: "Author email of checked out commit"
+    value: ${{ steps.current-sha.outputs.ae }}
+  cn:
+    description: "Commiter name of checked out commit"
+    value: ${{ steps.current-sha.outputs.cn }}
+  ce:
+    description: "Commiter email of checked out commit"
+    value: ${{ steps.current-sha.outputs.ce }}
 runs:
   using: "composite"
   steps:
@@ -56,7 +68,19 @@ runs:
         if [ "${IS_SPECIFIC}" == "true" ] || [ "${IS_CURRENT}" == "true" ]; then
           cd "${{ inputs.path }}"
           SHA=$(git log -n 1 --format=%H);
+          COMMIT_AUTHOR_NAME="$( git log --format=%an -n 1 ${SHA} )"
+          COMMIT_AUTHOR_EMAIL="$( git log --format=%ae -n 1 ${SHA} )"
+          COMMIT_COMMITTER_NAME="$( git log --format=%cn -n 1 ${SHA} )"
+          COMMIT_COMMITTER_EMAIL="$( git log --format=%ce -n 1 ${SHA} )"
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
+          echo "an=${COMMIT_AUTHOR_NAME}" >> $GITHUB_OUTPUT
+          echo "ae=${COMMIT_AUTHOR_EMAIL}" >> $GITHUB_OUTPUT
+          echo "cn=${COMMIT_COMMITTER_NAME}" >> $GITHUB_OUTPUT
+          echo "ce=${COMMIT_COMMITTER_EMAIL}" >> $GITHUB_OUTPUT
         else
           echo "sha=false" >> $GITHUB_OUTPUT
+          echo "an=false" >> $GITHUB_OUTPUT
+          echo "ae=false" >> $GITHUB_OUTPUT
+          echo "cn=false" >> $GITHUB_OUTPUT
+          echo "ce=false" >> $GITHUB_OUTPUT
         fi

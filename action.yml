@@ -48,8 +48,8 @@ runs:
 
     - name: Set SHA Output
       env: 
-        IS_SPECIFIC: ${{ steps.checkout-specific.outcome == 'success' }}
-        IS_CURRENT: ${{ steps.checkout-current.outcome == 'success' }}
+        IS_SPECIFIC: ${{ steps.checkout-specific.outcome != 'skipped' }}
+        IS_CURRENT: ${{ steps.checkout-current.outcome != 'skipped' }}
       id: current-sha
       shell: bash
       run: |

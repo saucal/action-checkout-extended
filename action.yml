@@ -56,7 +56,7 @@ runs:
         if [ "${IS_SPECIFIC}" == "true" ] || [ "${IS_CURRENT}" == "true" ]; then
           cd "${{ inputs.path }}"
           SHA=$(git log -n 1 --format=%H);
-          echo "::set-output name=sha::${SHA}"
+          echo "sha=${SHA}" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=sha::false"
+          echo "sha=false" >> $GITHUB_OUTPUT
         fi

@@ -48,6 +48,9 @@ outputs:
   ce:
     description: "Commiter email of checked out commit"
     value: ${{ steps.current-sha.outputs.ce }}
+  message:
+    description: "Commiter message"
+    value: ${{ steps.current-sha.outputs.message }}
 runs:
   using: "composite"
   steps:
@@ -128,15 +131,22 @@ runs:
           COMMIT_AUTHOR_EMAIL="$( git log --format=%ae -n 1 ${SHA} )"
           COMMIT_COMMITTER_NAME="$( git log --format=%cn -n 1 ${SHA} )"
           COMMIT_COMMITTER_EMAIL="$( git log --format=%ce -n 1 ${SHA} )"
+          COMMIT_MESSAGE="$( git log --format=%B -n 1 ${SHA} )"
           echo "sha=${SHA}" >> $GITHUB_OUTPUT
           echo "an=${COMMIT_AUTHOR_NAME}" >> $GITHUB_OUTPUT
           echo "ae=${COMMIT_AUTHOR_EMAIL}" >> $GITHUB_OUTPUT
           echo "cn=${COMMIT_COMMITTER_NAME}" >> $GITHUB_OUTPUT
           echo "ce=${COMMIT_COMMITTER_EMAIL}" >> $GITHUB_OUTPUT
+          {
+            echo 'message<<EOF_MANIFEST'
+            echo "${COMMIT_MESSAGE}"
+            echo 'EOF_MANIFEST'
+          } >> $GITHUB_OUTPUT
         else
           echo "sha=false" >> $GITHUB_OUTPUT
           echo "an=false" >> $GITHUB_OUTPUT
           echo "ae=false" >> $GITHUB_OUTPUT
           echo "cn=false" >> $GITHUB_OUTPUT
           echo "ce=false" >> $GITHUB_OUTPUT
+          echo "message=false" >> $GITHUB_OUTPUT
         fi

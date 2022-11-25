@@ -34,7 +34,7 @@ inputs:
     default: ""
 outputs:
   sha:
-    description: "Real SHA of the commit checked out"
+    description: "SHA of checked out commit"
     value: ${{ steps.current-sha.outputs.sha }}
   an:
     description: "Author name of checked out commit"
@@ -49,7 +49,7 @@ outputs:
     description: "Commiter email of checked out commit"
     value: ${{ steps.current-sha.outputs.ce }}
   message:
-    description: "Commiter message"
+    description: "Commit message"
     value: ${{ steps.current-sha.outputs.message }}
 runs:
   using: "composite"

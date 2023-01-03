@@ -52,7 +52,7 @@ Another common need is to clone a third party repo (private or public)
     # When setting for committing, use this as Commiter Email
     use-ce: "41898282+github-actions[bot]@users.noreply.github.com"
 
-    # When setting for committing, use this as Author Email
+    # When setting for committing, use this as Author Name
     use-an: ""
 
     # When setting for committing, use this as Author Email

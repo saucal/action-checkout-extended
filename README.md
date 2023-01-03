@@ -57,6 +57,9 @@ Another common need is to clone a third party repo (private or public)
 
     # When setting for committing, use this as Author Email
     use-ae: ""
+
+    # Continue on error on checkout
+    continue-on-error: "false"
 ```
 
 ## Outputs
